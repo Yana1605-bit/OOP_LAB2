@@ -1,0 +1,65 @@
+using System.Data;
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        // Accept an array of 10 integers
+        int[] num = new int[10];
+
+
+        Console.WriteLine("Enter 10 integers (separated by spaces):");
+        string input = Console.ReadLine();
+        string[] numStrings = input.Split(' ');
+
+        // Checking if integers have exactly 10
+        if (num.Length != 10)
+        {
+            Console.WriteLine("You must enter exactly 10 integers.");
+            return;
+        }
+
+        for (int i = 0; i < numStrings.Length; i++)
+        {
+            if (!int.TryParse(numStrings[i], out num[i]))
+            {
+                Console.WriteLine($"Invalid integer input: {numStrings[i]}");
+                return;
+            }
+        }
+
+        // formula for string
+        Console.WriteLine("Enter a formula (use 'x' as the variable, e.g., (2*x + 3) % 5):");
+        string formula = Console.ReadLine();
+
+        // Original array output
+        Console.WriteLine("Original Array:");
+        PrintArray(num);
+
+        // Evaluatinng expression for each number
+        double[] evaluatedResults = new double[num.Length];
+        for (int i = 0; i < num.Length; i++)
+        {
+            evaluatedResults[i] = EvaluateExpression(formula, num[i]);
+        }
+
+        // Evaluated array output
+        Console.WriteLine("Evaluated Array:");
+        PrintArray(evaluatedResults);
+    }
+
+    static double EvaluateExpression(string formula, int x)
+    {
+        // For replacing 'x' with the actual number
+        string expression = formula.Replace("x", x.ToString());
+
+        // Use DataTable to compute the expression
+        var result = new DataTable().Compute(expression, null);
+        return Convert.ToDouble(result);
+    }
+
+    static void PrintArray<T>(T[] array)
+    {
+        Console.WriteLine(string.Join(", ", array));
+    }
+}
