@@ -1,0 +1,55 @@
+using System.Numerics;
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        int[] ages = new int[20];
+        int sum = 0;
+        int minimum = int.MaxValue;
+        int maximum = int.MinValue;
+
+        int Bracket_under18 = 0;
+        int Bracket18to35 = 0;
+        int Bracket36to60 = 0;
+        int Bracket_above60 = 0;
+
+        for (int i = 0; i < 20; i++)
+        {
+            Console.Write($"Enter age {i + 1}: ");
+            ages[i] = int.Parse(Console.ReadLine());
+
+            sum += ages[i];
+            if (ages[i] < minimum) minimum = ages[i];
+            if (ages[i] > maximum) maximum = ages[i];
+
+            // Age brackets
+            if (ages[i] < 18)
+                Bracket_under18++;
+            else if (ages[i] <= 35)
+                Bracket18to35++;
+            else if (ages[i] <= 60)
+                Bracket36to60++;
+            else
+                Bracket_above60++;
+        }
+
+        double average = (double)sum / ages.Length;
+
+        // Output formatted table
+        Console.WriteLine("\n================= Age Survey Results ===================");
+        Console.WriteLine($"                Total Entries : {ages.Length}");
+        Console.WriteLine($"                Average Age   : {average:F2}");
+        Console.WriteLine($"                Minimum Age   : {minimum}");
+        Console.WriteLine($"                Maximum Age   : {maximum}");
+
+        Console.WriteLine("\n=================== Age Brackets =======================");
+        Console.WriteLine("             {0,-15} | {1,5}", "Age Bracket", "Count");
+        Console.WriteLine("--------------------------------------------------------");
+        Console.WriteLine("             {0,-15} | {1,5}", "<18", Bracket_under18);
+        Console.WriteLine("             {0,-15} | {1,5}", "18–35", Bracket18to35);
+        Console.WriteLine("             {0,-15} | {1,5}", "36–60", Bracket36to60);
+        Console.WriteLine("             {0,-15} | {1,5}", ">60", Bracket_above60);
+        Console.WriteLine("=========================================================");
+    }
+}
