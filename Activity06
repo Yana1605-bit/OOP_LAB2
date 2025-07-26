@@ -1,0 +1,35 @@
+using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        string[] names = new string[15];
+
+        for (int i = 0; i < 15; i++)
+        {
+            // Asking user to enter a name
+            Console.Write($"Enter your name {i + 1}: ");
+            string name = Console.ReadLine();
+
+
+            // Duplicate check
+            bool duplicate = false;
+            for (int j = 0; j < i; j++)
+            {
+                if (names[j].Equals(name))
+                {
+                    Console.WriteLine($"{names[j]} and {name} are same");
+                    i--;
+                    duplicate = true;
+                    break;
+                }
+            }
+
+            if (!duplicate)
+                Console.Write($"Enter your name {i + 1}: ");
+                names[i] = Console.ReadLine();
+        }
+    }
+}
