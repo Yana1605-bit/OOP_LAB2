@@ -1,0 +1,69 @@
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        // Accepting of an array 
+        decimal[] prices = new decimal[7];
+        Console.WriteLine("Enter stock prices for 7 days (separated by spaces):");
+        string input = Console.ReadLine();
+        string[] stockPrice = input.Split(' ');
+
+        // Checking if it has exactly 7
+        if (stockPrice.Length != 7)
+        {
+            Console.WriteLine("You must enter exactly 7 prices.");
+            return;
+        }
+
+        for (int i = 0; i < stockPrice.Length; i++)
+        {
+            if (!decimal.TryParse(stockPrice[i], out prices[i]))
+            {
+                Console.WriteLine($"Invalid price input: {stockPrice[i]}");
+                return;
+            }
+        }
+
+        // Calculating the percentage gains and identify the day with the highest gain
+        decimal highestGain = 0;
+        int highestGainDay = -1;
+        decimal[] percentage_gains = new decimal[6]; 
+
+        for (int i = 1; i < prices.Length; i++)
+        {
+            if (prices[i - 1] != 0) 
+            {
+                decimal gain = (prices[i] - prices[i - 1]) / prices[i - 1] * 100;
+                percentage_gains[i - 1] = gain;
+
+                // Checking for the highest gain
+                if (gain > highestGain)
+                {
+                    highestGain = gain;
+                    highestGainDay = i; 
+                }
+            }
+            else
+            {
+                percentage_gains[i - 1] = 0; 
+            }
+        }
+
+        // Percentage output
+        Console.WriteLine("Percentage Gains for Each Day:");
+        for (int i = 0; i < percentage_gains.Length; i++)
+        {
+            Console.WriteLine($"Day {i + 1} to Day {i + 2}: {percentage_gains[i]:F2}%");
+        }
+
+        // Output 
+        if (highestGainDay != -1)
+        {
+            Console.WriteLine($"The highest gain was on Day {highestGainDay} with a gain of {highestGain:F2}%.");
+        }
+        else
+        {
+            Console.WriteLine("No gains were recorded.");
+        }
+    }
+}
