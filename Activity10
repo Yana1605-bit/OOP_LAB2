@@ -1,0 +1,72 @@
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        List<int> score = new List<int>();
+        
+        Console.WriteLine("Enter at least 10 player scores (separated by spaces):");
+        string input = Console.ReadLine();
+        string[] scoreStrings = input.Split(' ');
+
+        // For score and add to the list
+        foreach (string scoreString in scoreStrings)
+        {
+            if (int.TryParse(scoreString, out int scores))
+            {
+                score.Add(scores);
+            }
+        }
+
+        // at least 10
+        if (score.Count < 10)
+        {
+            Console.WriteLine("You must enter at least 10 scores.");
+            return;
+        }
+
+        // Sort of the scores
+        score.Sort((a, b) => b.CompareTo(a));
+
+        // Output 
+        Console.WriteLine("=====================Initial Leaderboard =====================");
+        PrintLeaderboard(score);
+
+        // Input new player's score
+        Console.WriteLine("Enter the new player's score:");
+        if (int.TryParse(Console.ReadLine(), out int newScore))
+        {
+            // Insert the new score in the correct position
+            InsertScore(score, newScore);
+
+            // Output the updated leaderboard
+            Console.WriteLine("===================== Updated Leaderboard =====================");
+            PrintLeaderboard(score);
+        }
+        else
+        {
+            Console.WriteLine("Invalid score input.");
+        }
+    }
+
+    static void InsertScore(List<int> scores, int newScore)
+    {
+        // Finding correct position to insert the new score
+        int index = scores.FindIndex(score => score < newScore);
+        if (index == -1) 
+        {
+            scores.Add(newScore);
+        }
+        else
+        {
+            scores.Insert(index, newScore);
+        }
+    }
+
+    static void PrintLeaderboard(List<int> scores)
+    {
+        for (int i = 0; i < scores.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {scores[i]}");
+        }
+    } 
+}
