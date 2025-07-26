@@ -1,0 +1,66 @@
+internal class Program
+{
+    private static void Main(string[] args)
+
+    {
+        string[] Events = new string[5];
+        DateTime[] Dates = new DateTime[5];
+
+        for (int i = 0; i < 5; i++)
+        {
+            // Asking user to iput 5 dates
+            Console.Write("Enter appointment title: ");
+            Events[i] = Console.ReadLine();
+
+            Console.Write("Enter appointment date (MM/DD/YYYY): ");
+            DateTime date;
+            while (!DateTime.TryParse(Console.ReadLine(), out date))
+            {
+                Console.Write("Invalid format. Enter date (MM/DD/YYYY): ");
+            }
+
+            // Duplicate check
+            bool duplicate = false;
+            for (int j = 0; j < i; j++)
+            {
+                if (Dates[j].Date == date.Date)
+                {
+                    Console.WriteLine("Date already scheduled! Enter a different date.");
+                    i--;
+                    duplicate = true;
+                    break;
+                }
+            }
+
+            if (!duplicate)
+                Dates[i] = date;
+        }
+
+        // events sorted by date
+        for (int i = 0; i < Dates.Length - 1; i++)
+        {
+            for (int j = i + 1; j < Dates.Length; j++)
+            {
+                if (Dates[j] < Dates[i])
+                {
+                    // Swap dates
+                    DateTime tempDate = Dates[i];
+                    Dates[i] = Dates[j];
+                    Dates[j] = tempDate;
+
+                    // Swap titles
+                    string tempTitle = Events[i];
+                    Events[i] = Events[j];
+                    Events[j] = tempTitle;
+                }
+            }
+        }
+
+        // Displaying the sorted events
+        Console.WriteLine("\nEvents sorted by date:");
+        for (int i = 0; i < 5; i++)
+        {
+            Console.WriteLine($"{Dates[i]:MM/dd/yyyy} - {Events[i]}");
+        }
+    }
+}
