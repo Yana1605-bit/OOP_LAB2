@@ -1,0 +1,40 @@
+using System;
+using System.Numerics;
+using System.Security.AccessControl;
+using System.Xml.Linq;
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        List<string> name = new List<string>();
+        int[] score = new int[10];
+
+        // user input using loop
+        for (int i = 0; i < 10; i++)
+        {
+            Console.Write($"Enter name of student {i + 1}: ");
+            name.Add(Console.ReadLine());
+
+            Console.Write($"Enter score of student {i + 1}: ");
+            score[i] = int.Parse(Console.ReadLine()); 
+        }
+
+        // Combining names and scores for a list
+        List<(string Name, int Score)> studentData = new List<(string Name, int Score)>();
+        for (int i = 0; i < 10; i++)
+        {
+            studentData.Add((name[i], score[i]));
+        }
+
+        // For ranking
+        List<(string Name, int Score)> top3Students = studentData.OrderByDescending(s => s.Score).ThenBy(s => s.Name).Take(3).ToList();
+
+        Console.WriteLine("Rank 3 Students:");
+        for (int i = 0; i < top3Students.Count; i++)
+        {
+            (string Name, int Score) student = top3Students[i];
+            Console.WriteLine($"Rank: {i + 1} {student.Name} with {student.Score}.");
+        }
+    }
+}
